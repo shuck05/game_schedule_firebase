@@ -1,0 +1,17 @@
+.Background {
+  display: flex;
+  border-bottom: grey;
+  border-radius: 10px;
+  border-style: solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+h2 {
+  flex-grow: 1;
+}
+
+.Button-Row {
+  align-self: center;
+}

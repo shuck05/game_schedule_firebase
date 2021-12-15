@@ -1,0 +1,18 @@
+.background {
+  width: 100vw;
+  height: 100vh;
+  background-color: #282c34;
+  color: #61dafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginContent {
+  margin: 15px !important;
+}

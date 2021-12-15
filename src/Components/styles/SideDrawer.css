@@ -1,0 +1,25 @@
+.Side-h2 {
+  border: grey;
+  border-radius: 1px;
+  border-style: solid;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.SideDrawer {
+  margin-top: 10vh;
+}
+
+.Sidedrawer-Button {
+  border: grey;
+  border-radius: 1px;
+  border-style: solid;
+  margin-left: 2vw;
+  margin-right: 2vw;
+}
+
+.ButtonAsH2 {
+  color: #61dafb !important;
+  font-weight: bold !important;
+  font-size: large !important;
+}
