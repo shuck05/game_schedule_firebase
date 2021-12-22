@@ -2,10 +2,15 @@ import { IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import "./styles/Header.css";
+import { auth } from "../firebase/FirebaseApp";
+import { useNavigate } from "react-router-dom";
 
 function Header(props) {
+  const navigate = useNavigate();
+
   function logout() {
-    props.setUserID(null);
+    auth.signOut();
+    navigate("/");
   }
 
   function settings() {

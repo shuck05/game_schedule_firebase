@@ -1,35 +1,41 @@
 import { Button } from "@mui/material";
 import "./styles/SideDrawer.css";
+import { useState } from "react";
+import { useEffect } from "react";
+import {
+  getEventNamesForUser,
+  getEventById,
+} from "../firebase/firebase-event-api.tsx";
 
 function Sidedrawer(props) {
+  const [eventNames, setEventNames] = useState(null);
+
+  useEffect(() => {
+    getEventNamesForUser("asd").then((result) => {
+      setEventNames(result);
+    });
+  }, []);
+
   function toggleNewEntry() {
     props.toggleNewEntry();
   }
 
-  function setActiveEvent(name) {
+  async function setActiveEvent(id) {
     if (props.activeEvent !== null) {
-      if (name === props.activeEvent.name) {
+      if (id === props.activeEvent.id) {
         props.setActiveEvent(null);
         return;
       }
     }
-
-    for (let i = 0; i < props.eventArr.length; i++) {
-      if (props.eventArr[i].name === name) {
-        props.setActiveEvent(props.eventArr[i]);
-        return;
-      }
-    }
+    getEventById(id).then((result) => {
+      props.setActiveEvent(result);
+    });
   }
 
   function deleteEvent(name) {
-    let arr = props.eventArr;
-    for (let i = 0; i < arr.length; i++) {
-      if (name === arr[i].name) {
-        arr.splice(i, 1);
-        localStorage.setItem("eventArr", JSON.stringify(arr));
-        props.setEventArr(arr);
-        props.setActiveEvent(null);
+    for (let i = 0; i < props.eventNames.length; i++) {
+      if (name === eventNames[i]) {
+        console.log("Deleting Event:", eventNames[i]);
         return;
       }
     }
@@ -43,21 +49,18 @@ function Sidedrawer(props) {
         </Button>
       </div>
       <ul className="u-List">
-        {props.eventArr === null ? (
+        {eventNames === null ? (
           <h6>Noch keine Events</h6>
         ) : (
-          props.eventArr.map((e) => (
-            <li key={e.name}>
+          eventNames.map((e) => (
+            <li key={e}>
               <Button
                 className="ButtonAsH2"
-                onClick={() => setActiveEvent(e.name)}
+                onClick={() => setActiveEvent(e[1])}
               >
-                {e.name}
+                {e[0]}
               </Button>
-              <Button
-                className="ButtonAsH2"
-                onClick={() => deleteEvent(e.name)}
-              >
+              <Button className="ButtonAsH2" onClick={() => deleteEvent(e[0])}>
                 X
               </Button>
             </li>
