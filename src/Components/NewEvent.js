@@ -1,23 +1,17 @@
 import { TextField, Button } from "@mui/material";
 import { useState } from "react";
 import "./styles/NewEvent.css";
+import {handleCreateNewEvent} from "../firebase/firebase-event-api.tsx"
 
 function NewEvent(props) {
   const [eventName, setEventName] = useState("");
-  const [teamArray, setTeamArray] = useState([
-    { name: "Ajax Dauerstramm", score: 0, numberGames: 0, difference: 0 },
-    {
-      name: "Dynamo Trinken",
-      score: 0,
-      numberGames: 0,
-      difference: 0,
-    },
-  ]);
+  const [teamArray, setTeamArray] = useState(["Ajax Dauerstramm", "Dynamo Trinken"]);
   const [participantArray, setParticipantArray] = useState([
-    "Timmi Hendrix",
-    "Benjamin",
+    "Timmi@23.de",
+    "Benjamin@cas.de",
+    "admin@123.de"
   ]);
-  const [trainerArray, setTrainerArray] = useState(["2 Pac", "50 Cent"]);
+  const [trainerArray, setTrainerArray] = useState(["admin@123.de"]);
   const [newTeamTF, setNewTeamTF] = useState("");
   const [newParticipantTF, setNewParticipantTF] = useState("");
   const [newTrainerTF, setNewTrainerTF] = useState("");
@@ -28,7 +22,7 @@ function NewEvent(props) {
 
   function handleNewTeam() {
     for (let i = 0; i < teamArray.length; i++) {
-      if (teamArray[i].name === newTeamTF) {
+      if (teamArray[i] === newTeamTF) {
         alert("Dieses Team existiert schon");
         return;
       }
@@ -38,7 +32,7 @@ function NewEvent(props) {
     } else {
       setTeamArray([
         ...teamArray,
-        { name: newTeamTF, score: 0, numberGames: 0, difference: 0 },
+        newTeamTF,
       ]);
     }
     setNewTeamTF("");
@@ -88,7 +82,7 @@ function NewEvent(props) {
 
   function handleDeleteTeam(team) {
     for (var i = 0; i < teamArray.length; i++) {
-      if (teamArray[i].name === team) {
+      if (teamArray[i] === team) {
         teamArray.splice(i, 1);
       }
     }
@@ -180,6 +174,22 @@ function NewEvent(props) {
     }
   }
 
+  function createEvent() {
+    let ev = {
+      name : eventName,
+      teams: teamArray,
+      participants: participantArray,
+      admins: trainerArray
+    }
+    handleCreateNewEvent(ev).then((value)=>{
+      alert("Event Created!")
+    })
+    .catch((error) => {
+      alert("An Error occoured!")
+    })
+  }
+
+/*
   function handleNewEvent() {
     if (teamArray.length < 2) {
       alert("Hast du keine Freunde?");
@@ -216,7 +226,7 @@ function NewEvent(props) {
       props.setNewEntry();
     }
   }
-
+*/
   return (
     <div className="NewEventOuter">
       <div className="Flex-Row" style={{ paddingRight: "2vw" }}>
@@ -224,7 +234,7 @@ function NewEvent(props) {
         <Button
           variant="outlined"
           onClick={() => {
-            handleNewEvent();
+            createEvent()
           }}
         >
           Event Erstellen
@@ -323,18 +333,18 @@ function NewEvent(props) {
           <h3>Teams</h3>
           <ul className="u-List">
             {teamArray.map((team) => (
-              <li key={team.name}>
+              <li key={team}>
                 <TextField
                   className="textfield Col-Content"
                   id="0"
-                  label={team.name}
+                  label={team}
                   variant="standard"
                 />
                 <Button
                   className="Col-Content"
                   variant="outlined"
                   onClick={() => {
-                    handleDeleteTeam(team.name);
+                    handleDeleteTeam(team);
                   }}
                 >
                   X

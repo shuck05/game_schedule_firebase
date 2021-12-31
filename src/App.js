@@ -1,6 +1,6 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Button, useEventCallback } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import { useState } from "react";
 import "./App.css";
 import Header from "./Components/Header";
 import MainSpace from "./Components/MainSpace";
@@ -37,7 +37,7 @@ function App() {
                 </div>
                 <div className="Main">
                   {!newEntry && <MainSpace activeEvent={activeEvent} />}
-                  {newEntry && <NewEvent setNewEntry={setNewEntry} />}
+                  {newEntry && <NewEvent setNewEntry={setNewEntry} setActiveEvent={setActiveEvent} />}
                 </div>
                 <div className="Ads">
                   <h2> Hier könnte ihre Werbung stehen</h2>

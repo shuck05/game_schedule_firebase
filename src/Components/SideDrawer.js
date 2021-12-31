@@ -5,15 +5,21 @@ import { useEffect } from "react";
 import {
   getEventNamesForUser,
   getEventById,
+  handleDeleteEventWithID
 } from "../firebase/firebase-event-api.tsx";
+import {auth} from "../firebase/FirebaseApp";
 
 function Sidedrawer(props) {
   const [eventNames, setEventNames] = useState(null);
 
   useEffect(() => {
-    getEventNamesForUser("asd").then((result) => {
-      setEventNames(result);
-    });
+    if(auth.currentUser != null) {
+      getEventNamesForUser(auth.currentUser.email).then((result) => {
+        setEventNames(result);
+      });
+    }
+    console.log(eventNames)
+    // eslint-disable-next-line
   }, []);
 
   function toggleNewEntry() {
@@ -32,13 +38,9 @@ function Sidedrawer(props) {
     });
   }
 
-  function deleteEvent(name) {
-    for (let i = 0; i < props.eventNames.length; i++) {
-      if (name === eventNames[i]) {
-        console.log("Deleting Event:", eventNames[i]);
-        return;
-      }
-    }
+  function deleteEvent(id) {
+    console.log(id);
+    handleDeleteEventWithID(id);
   }
 
   return (
@@ -60,7 +62,7 @@ function Sidedrawer(props) {
               >
                 {e[0]}
               </Button>
-              <Button className="ButtonAsH2" onClick={() => deleteEvent(e[0])}>
+              <Button className="ButtonAsH2" onClick={() => deleteEvent(e[1])}>
                 X
               </Button>
             </li>

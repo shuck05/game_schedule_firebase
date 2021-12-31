@@ -27,13 +27,15 @@ function LoginPage(props) {
     console.log("Logging in with:", username, password);
     signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
-        const user = userCredential.user;
         navigate("/");
       })
       .catch((error) => {
         alert("Username oder Passwort falsch");
       });
   }
+
+  function dummy(){}
+    
 
   return (
     <div className="background">
@@ -66,6 +68,7 @@ function LoginPage(props) {
           </div>
         </div>
         <Button onClick={handleLogout}>Logout</Button>
+        <Button onClick={dummy}>Dummy</Button>
       </div>
     </div>
   );

@@ -4,17 +4,15 @@ import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from "@mui/icons-material/Edit";
 import "./styles/Schedule.css";
 import { useState, useEffect } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "../firebase/FirebaseApp";
 
 function Schedule(props) {
   const [activeEdit, setActiveEdit] = useState("");
   const [textfield1, setTextfield1] = useState(0);
   const [textfield2, setTextfield2] = useState(0);
-  const [ev, setEv] = useState(null);
 
   useEffect(() => {
     console.log(props.activeEvent);
+    //eslint-disable-next-line
   }, []);
 
   /*
