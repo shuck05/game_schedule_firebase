@@ -5,25 +5,34 @@ import { useEffect } from "react";
 import {
   getEventNamesForUser,
   getEventById,
-  handleDeleteEventWithID
+  handleDeleteEventWithID,
 } from "../firebase/firebase-event-api.tsx";
-import {auth} from "../firebase/FirebaseApp";
+import { auth } from "../firebase/FirebaseApp";
 
 function Sidedrawer(props) {
   const [eventNames, setEventNames] = useState(null);
 
   useEffect(() => {
-    if(auth.currentUser != null) {
+    if (auth.currentUser != null) {
       getEventNamesForUser(auth.currentUser.email).then((result) => {
         setEventNames(result);
       });
     }
-    console.log(eventNames)
     // eslint-disable-next-line
-  }, []);
+  }, [props.toggleNewEntry, props.activeEvent]);
 
   function toggleNewEntry() {
     props.toggleNewEntry();
+  }
+
+  function comp(team1, team2) {
+    if (team1.score > team2.score) return -1;
+    if (team1.score < team2.score) return 1;
+    if (team1.score === team2.score) {
+      if (team1.difference > team2.difference) return -1;
+      if (team1.difference < team2.difference) return 1;
+    }
+    return 0;
   }
 
   async function setActiveEvent(id) {
@@ -39,8 +48,8 @@ function Sidedrawer(props) {
   }
 
   function deleteEvent(id) {
-    console.log(id);
     handleDeleteEventWithID(id);
+    props.setActiveEvent(null);
   }
 
   return (

@@ -21,7 +21,7 @@ function Scoreboard(props) {
               <li key={e.name}>
                 <Button className="ButtonAsH2 Width50">{e.name}</Button>
                 <Button className="ButtonAsH2 Width15">{e.numberGames}</Button>
-                <Button className="ButtonAsH2 Width15">{e.difference}</Button>
+                <Button className="ButtonAsH2 Width15">{e.dif}</Button>
                 <Button className="ButtonAsH2 Width20">{e.score}</Button>
               </li>
             ))}

@@ -13,12 +13,17 @@ function Header(props) {
     navigate("/");
   }
 
+  function home() {
+    props.setNewEntry(false);
+    props.setActiveEvent(null);
+  }
+
   function settings() {
     alert("settings");
   }
   return (
     <div className="Background">
-      <h2>Spielplan Schosch</h2>
+      <h2 onClick={home}>Spielplan Schosch</h2>
       <div className="Button-Row">
         <IconButton onClick={settings}>
           <SettingsIcon sx={{ color: "white" }}></SettingsIcon>

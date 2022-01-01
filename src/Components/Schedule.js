@@ -4,6 +4,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from "@mui/icons-material/Edit";
 import "./styles/Schedule.css";
 import { useState, useEffect } from "react";
+import { handleNewResult } from "../firebase/firebase-event-api.tsx";
 
 function Schedule(props) {
   const [activeEdit, setActiveEdit] = useState("");
@@ -12,24 +13,10 @@ function Schedule(props) {
 
   useEffect(() => {
     console.log(props.activeEvent);
+    props.activeEvent.games.sort(comp);
     //eslint-disable-next-line
   }, []);
 
-  /*
-  async function getEvent() {
-    const q = query(
-      collection(db, "Events"),
-      where("name", "=", props.activeEvent.name)
-    );
-    let arr = [];
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data().name);
-      arr.push(doc.data().name);
-    });
-  }
-
-  */
   function handleTF1change(e) {
     console.log(props.activeEvent);
     setTextfield1(e.target.value);
@@ -50,6 +37,24 @@ function Schedule(props) {
   }
 
   function addResult(team1, team2) {
+    console.log(team1 + "  " + team2);
+
+    let game = {
+      team1: team1,
+      team2: team2,
+      scoreT1: textfield1,
+      scoreT2: textfield2,
+      done: true,
+    };
+    console.log(props.activeEvent);
+    handleNewResult(game, props.activeEvent.id);
+
+    setTextfield1(0);
+    setTextfield2(0);
+    setActiveEdit("");
+    props.rend();
+  }
+  /*
     let indexT1 = null;
     let indexT2 = null;
 
@@ -187,7 +192,8 @@ function Schedule(props) {
     setTextfield2(0);
     setActiveEdit("");
     props.rend();
-  }
+
+    */
 
   return (
     <div>

@@ -1,17 +1,14 @@
 import { TextField, Button } from "@mui/material";
 import { useState } from "react";
 import "./styles/NewEvent.css";
-import {handleCreateNewEvent} from "../firebase/firebase-event-api.tsx"
+import { handleCreateNewEvent } from "../firebase/firebase-event-api.tsx";
+import { auth } from "../firebase/FirebaseApp";
 
 function NewEvent(props) {
   const [eventName, setEventName] = useState("");
-  const [teamArray, setTeamArray] = useState(["Ajax Dauerstramm", "Dynamo Trinken"]);
-  const [participantArray, setParticipantArray] = useState([
-    "Timmi@23.de",
-    "Benjamin@cas.de",
-    "admin@123.de"
-  ]);
-  const [trainerArray, setTrainerArray] = useState(["admin@123.de"]);
+  const [teamArray, setTeamArray] = useState([]);
+  const [participantArray, setParticipantArray] = useState([]);
+  const [trainerArray, setTrainerArray] = useState([]);
   const [newTeamTF, setNewTeamTF] = useState("");
   const [newParticipantTF, setNewParticipantTF] = useState("");
   const [newTrainerTF, setNewTrainerTF] = useState("");
@@ -30,10 +27,7 @@ function NewEvent(props) {
     if (newTeamTF === "") {
       alert("Das Team muss einen Namen haben!");
     } else {
-      setTeamArray([
-        ...teamArray,
-        newTeamTF,
-      ]);
+      setTeamArray([...teamArray, newTeamTF]);
     }
     setNewTeamTF("");
   }
@@ -176,20 +170,22 @@ function NewEvent(props) {
 
   function createEvent() {
     let ev = {
-      name : eventName,
+      name: eventName,
       teams: teamArray,
-      participants: participantArray,
-      admins: trainerArray
-    }
-    handleCreateNewEvent(ev).then((value)=>{
-      alert("Event Created!")
-    })
-    .catch((error) => {
-      alert("An Error occoured!")
-    })
+      participants: [...participantArray, auth.currentUser.email],
+      admins: [...trainerArray, auth.currentUser.email],
+    };
+    handleCreateNewEvent(ev)
+      .then((value) => {
+        alert("Event Created!");
+      })
+      .catch((error) => {
+        alert("An Error occoured!");
+      });
+    props.setNewEntry();
   }
 
-/*
+  /*
   function handleNewEvent() {
     if (teamArray.length < 2) {
       alert("Hast du keine Freunde?");
@@ -234,7 +230,7 @@ function NewEvent(props) {
         <Button
           variant="outlined"
           onClick={() => {
-            createEvent()
+            createEvent();
           }}
         >
           Event Erstellen

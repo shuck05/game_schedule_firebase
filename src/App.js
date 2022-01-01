@@ -15,6 +15,7 @@ function App() {
 
   function toggleNewEntry() {
     setNewEntry(!newEntry);
+    console.log(activeEvent);
   }
 
   return (
@@ -26,7 +27,10 @@ function App() {
             element={
               <div className="App">
                 <div className="Header">
-                  <Header></Header>
+                  <Header
+                    setNewEntry={setNewEntry}
+                    setActiveEvent={setActiveEvent}
+                  ></Header>
                 </div>
                 <div className="Sidedrawer">
                   <SideDrawer
@@ -37,7 +41,12 @@ function App() {
                 </div>
                 <div className="Main">
                   {!newEntry && <MainSpace activeEvent={activeEvent} />}
-                  {newEntry && <NewEvent setNewEntry={setNewEntry} setActiveEvent={setActiveEvent} />}
+                  {newEntry && (
+                    <NewEvent
+                      setNewEntry={setNewEntry}
+                      setActiveEvent={setActiveEvent}
+                    />
+                  )}
                 </div>
                 <div className="Ads">
                   <h2> Hier könnte ihre Werbung stehen</h2>
