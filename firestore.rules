@@ -2,10 +2,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /Events/{event} {
-      allow read, write: if 
-      	debug(
-        debug(request.auth.email) in debug(resource.data.admins)
-      );
+      allow read, write: if false
+      // debug(request.auth.email)
       // request.auth.email in resource.data.admins;
       // allow read: if request.auth.email in resource.data.participants;
       // allow read, write: if false;
