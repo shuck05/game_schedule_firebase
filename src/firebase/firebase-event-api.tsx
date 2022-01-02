@@ -73,7 +73,7 @@ const getEventById = async (id: String): Promise<Event> => {
     };
     teamArr.push(team);
   });
-
+  teamArr.sort(comp);
   let event: Event = {
     name: docData.data().name,
     id: id,
@@ -86,7 +86,6 @@ const getEventById = async (id: String): Promise<Event> => {
 };
 
 const getEventNamesForUser = async (id: String): Promise<String[][]> => {
-  console.log("asking Server");
   const q = query(
     collection(db, "Events"),
     where("participants", "array-contains", id)
@@ -179,7 +178,7 @@ const handleCreateNewEvent = async (ev: Event): Promise<String> => {
   };
   const docRef = await addDoc(collection(db, "Events"), evData);
   const id = docRef.id;
-
+  /*
   let teamdata = null;
   for (let i = 0; i < ev.teams.length; i++) {
     teamdata = {
@@ -193,24 +192,7 @@ const handleCreateNewEvent = async (ev: Event): Promise<String> => {
       teamdata
     );
   }
-  for (let i = 0; i < 2; i++) {
-    let game = {
-      scoreT1: 0,
-      scoreT2: 0,
-      team1: ev.teams[0],
-      team2: ev.teams[1],
-      done: false,
-    };
-    await setDoc(
-      doc(
-        db,
-        "Events/" + id + "/Games",
-        String(String(ev.teams[0]) + String(ev.teams[1]))
-      ),
-      game
-    );
-  }
-
+*/
   return id;
 };
 
@@ -276,6 +258,16 @@ const eventConverter = {
     },
   };
 */
+
+function comp(team1, team2) {
+  if (team1.score > team2.score) return -1;
+  if (team1.score < team2.score) return 1;
+  if (team1.score === team2.score) {
+    if (team1.difference > team2.difference) return -1;
+    if (team1.difference < team2.difference) return 1;
+  }
+  return 0;
+}
 
 export {
   getEventById,

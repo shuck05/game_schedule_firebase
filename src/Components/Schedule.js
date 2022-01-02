@@ -12,8 +12,7 @@ function Schedule(props) {
   const [textfield2, setTextfield2] = useState(0);
 
   useEffect(() => {
-    console.log(props.activeEvent);
-    props.activeEvent.games.sort(comp);
+    console.log("Schedule useEffect");
     //eslint-disable-next-line
   }, []);
 

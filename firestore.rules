@@ -1,9 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
+    match /Events/{event} {
+      allow read, write: if 
+      	debug(
+        debug(request.auth.email) in debug(resource.data.admins)
+      );
+      // request.auth.email in resource.data.admins;
+      // allow read: if request.auth.email in resource.data.participants;
       // allow read, write: if false;
-      allow read, write: if true;
     }
   }
 }

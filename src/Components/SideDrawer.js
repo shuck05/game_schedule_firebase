@@ -1,4 +1,5 @@
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import "./styles/SideDrawer.css";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -13,26 +14,17 @@ function Sidedrawer(props) {
   const [eventNames, setEventNames] = useState(null);
 
   useEffect(() => {
+    console.log("Sidedrawer UseEffect");
     if (auth.currentUser != null) {
       getEventNamesForUser(auth.currentUser.email).then((result) => {
         setEventNames(result);
       });
     }
     // eslint-disable-next-line
-  }, [props.toggleNewEntry, props.activeEvent]);
+  }, [props.newEntry]);
 
   function toggleNewEntry() {
     props.toggleNewEntry();
-  }
-
-  function comp(team1, team2) {
-    if (team1.score > team2.score) return -1;
-    if (team1.score < team2.score) return 1;
-    if (team1.score === team2.score) {
-      if (team1.difference > team2.difference) return -1;
-      if (team1.difference < team2.difference) return 1;
-    }
-    return 0;
   }
 
   async function setActiveEvent(id) {
@@ -50,6 +42,14 @@ function Sidedrawer(props) {
   function deleteEvent(id) {
     handleDeleteEventWithID(id);
     props.setActiveEvent(null);
+  }
+
+  function refresh() {
+    if (auth.currentUser != null) {
+      getEventNamesForUser(auth.currentUser.email).then((result) => {
+        setEventNames(result);
+      });
+    }
   }
 
   return (
@@ -78,6 +78,9 @@ function Sidedrawer(props) {
           ))
         )}
       </ul>
+      <IconButton onClick={refresh} style={{ color: "white" }}>
+        <RefreshIcon />
+      </IconButton>
     </div>
   );
 }

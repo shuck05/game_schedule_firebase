@@ -11,7 +11,6 @@ function MainSpace(props) {
   const nav = useNavigate();
 
   useEffect(() => {
-    console.log(auth.currentUser);
     if (auth.currentUser === null) {
       nav("/login");
     }

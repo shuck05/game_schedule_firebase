@@ -12,7 +12,6 @@ function LoginPage(props) {
 
   function handleUsernameTextfieldChange(e) {
     setUsername(e.target.value);
-    if (auth.currentUser !== null) console.log(auth.currentUser.email);
   }
 
   function handlePasswordTextfieldChange(e) {
@@ -24,7 +23,6 @@ function LoginPage(props) {
   }
 
   function handleLogin() {
-    console.log("Logging in with:", username, password);
     signInWithEmailAndPassword(auth, username, password)
       .then((userCredential) => {
         navigate("/");
@@ -34,8 +32,7 @@ function LoginPage(props) {
       });
   }
 
-  function dummy(){}
-    
+  function dummy() {}
 
   return (
     <div className="background">

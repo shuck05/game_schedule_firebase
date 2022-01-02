@@ -1,5 +1,13 @@
 const functions = require("firebase-functions");
 
+exports.generateTeam = functions.firestore
+  .document("Events/{eventID}")
+  .onCreate((snap, context) => {
+    const data = snap.data();
+    let team = { name: data.name, score: 0 };
+    snap.ref.collection("Teams").doc(team.name).set(team);
+  });
+
 exports.generateGames = functions.firestore
   .document("Events/{eventID}")
   .onCreate((snap, context) => {
@@ -8,6 +16,17 @@ exports.generateGames = functions.firestore
     for (let i = 0; i < data.teams.length; i++) {
       teamArray.push({ name: data.teams[i] });
     }
+    let tempTeam = null;
+    for (let i = 0; i < teamArray.length; i++) {
+      tempTeam = {
+        name: teamArray[i].name,
+        score: 0,
+        dif: 0,
+        numberGames: 0,
+      };
+      snap.ref.collection("Teams").doc(tempTeam.name).set(tempTeam);
+    }
+
     gamesArr = [];
     if (teamArray.length === 2) {
       gamesArr = [[teamArray[0].name, teamArray[1].name], undefined, undefined];

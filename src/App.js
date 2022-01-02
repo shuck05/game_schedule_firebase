@@ -15,7 +15,6 @@ function App() {
 
   function toggleNewEntry() {
     setNewEntry(!newEntry);
-    console.log(activeEvent);
   }
 
   return (
