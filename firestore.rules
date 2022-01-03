@@ -2,11 +2,18 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /Events/{event} {
-      allow read, write: if false
-      // debug(request.auth.email)
-      // request.auth.email in resource.data.admins;
-      // allow read: if request.auth.email in resource.data.participants;
-      // allow read, write: if false;
+      allow read: if request.auth.token.email in resource.data.participants;
+			allow delete: if request.auth.token.email in resource.data.admins;
+      allow update: if request.auth.token.email in resource.data.admins;
+      allow create: if request.auth.uid != null;
+			
+      match /Games/{game} {
+          allow read, write: if request.auth.id != null;
+        }
+        
+        match /Teams/{team} {
+          allow read, write: if request.auth.id != null;
+        }
     }
   }
 }

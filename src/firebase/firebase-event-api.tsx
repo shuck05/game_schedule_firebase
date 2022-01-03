@@ -126,11 +126,6 @@ const handleNewResult = async (
     oldGame.done = oldGameRef.data().done;
   });
 
-  console.log("Oldgame:");
-  console.log(oldGame);
-  console.log("Newgame:");
-  console.log(game);
-
   if (!oldGame.done) {
     await updateDoc(gameRef, {
       scoreT1: game.scoreT1,
